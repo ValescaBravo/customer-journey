@@ -3,46 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customer Journey Mapping – Interactive Circle</title>
-  <!-- Tailwind via CDN -->
+  <title>Customer Journey Mapping – Interactive Circle | Valesca Bravo Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style> body{font-family:'Inter',sans-serif} .chip{border-radius:9999px;padding:.25rem .6rem;cursor:pointer} .badge{border-radius:.5rem;padding:.15rem .45rem} .card{transition:transform .25s ease, box-shadow .25s ease} .card:hover{transform:translateY(-2px)} </style>
-  <!-- React 18 via CDN (no build step) -->
+  <!-- BRAND TYPOGRAPHY: DM Sans + DM Serif Display + DM Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #09071a;
+      color: #eef2ff;
+      font-weight: 300;
+      scroll-behavior: smooth;
+    }
+    
+    :root {
+      --navy: #1d085e;
+      --teal: #13d6c1;
+      --teal-dark: #0a9a88;
+      --bg-dark: #09071a;
+      --card-bg: #0d0b1e;
+      --border-dim: #1e1e38;
+    }
+    
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #0d0b1e; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--teal-dark); }
+    
+    .brand-card {
+      background: #0d0b1e;
+      border: 1px solid #1e1e38;
+      border-radius: 1.5rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .brand-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 12px 28px rgba(19,214,193,0.18);
+      transform: translateY(-2px);
+    }
+    
+    .hero-brand {
+      background: linear-gradient(135deg, #0d0430, #1d085e, #0d3b38);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(19,214,193,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    
+    .btn-primary-brand {
+      background-color: #1d085e;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: white;
+      border-radius: 9999px;
+      padding: 0.5rem 1.5rem;
+    }
+    .btn-primary-brand:hover {
+      background-color: #0a9a88;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(19,214,193,0.3);
+    }
+    
+    .brand-chip {
+      font-family: 'DM Mono', monospace;
+      background: rgba(19,214,193,0.12);
+      border: 1px solid rgba(19,214,193,0.4);
+      color: #13d6c1;
+      border-radius: 9999px;
+      padding: 0.25rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      backdrop-filter: blur(2px);
+    }
+    
+    .serif-heading {
+      font-family: 'DM Serif Display', serif;
+    }
+    
+    .hover-lift-brand {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-lift-brand:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(19,214,193,0.2);
+      border-color: var(--teal);
+    }
+    
+    .chip-brand {
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+    
+    /* Custom styles for journey circle */
+    .journey-card {
+      background: #0d0b1e;
+      border: 1px solid #1e1e38;
+      border-radius: 1.5rem;
+      transition: all 0.25s ease;
+    }
+    .journey-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 8px 24px rgba(19,214,193,0.15);
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-blue-50 to-emerald-50 text-gray-800">
-  <header class="max-w-6xl mx-auto px-6 py-10">
-    <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-blue-700 hover:underline">← Back to Portfolio</a>
-    <a href="https://valescabravo.github.io/lab" class="inline-flex items-center text-sm text-blue-700 hover:underline">← Back to the Lab</a>
-    <h1 class="text-3xl md:text-5xl font-extrabold mt-4 leading-tight">Customer Journey Mapping
-      <span class="block text-xl md:text-2xl font-semibold text-gray-600">From Awareness to Advocacy (Interactive Circle)</span>
-    </h1>
-    <p class="mt-3 text-gray-700 max-w-3xl">Hover a stage to see a short description beside the circle. Click a stage to open the full details below.</p>
-    <div class="mt-4 flex flex-wrap gap-2">
-      <span class="chip bg-indigo-100 text-indigo-800">Interactive</span>
-      <span class="chip bg-emerald-100 text-emerald-800">React (CDN)</span>
-      <span class="chip bg-purple-100 text-purple-800">GitHub Pages‑ready</span>
+<body class="bg-[#09071a] font-['DM_Sans'] antialiased">
+
+  <!-- Hero Section Branded -->
+  <div class="hero-brand relative overflow-hidden">
+    <div class="relative max-w-6xl mx-auto px-6 py-12 md:py-16 z-10">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors font-mono tracking-wide">
+            ← Back to Portfolio
+          </a>
+          <span class="mx-2 text-teal-500/50">/</span>
+          <a href="https://valescabravo.github.io/lab" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors font-mono tracking-wide">
+            Back to the Lab
+          </a>
+        </div>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-bold mt-6 leading-tight serif-heading text-white">
+        Customer Journey Mapping
+        <span class="block text-xl md:text-2xl font-light text-teal-200 mt-2">From Awareness to Advocacy (Interactive Circle)</span>
+      </h1>
+      <p class="mt-4 text-teal-100/80 max-w-3xl text-lg">Hover a stage to see a short description beside the circle. Click a stage to open the full details below.</p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <span class="brand-chip">Interactive</span>
+        <span class="brand-chip">React (CDN)</span>
+        <span class="brand-chip">GitHub Pages‑ready</span>
+        <span class="brand-chip">2026</span>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <main id="app" class="max-w-6xl mx-auto px-6 pb-20"></main>
+  <main id="app" class="max-w-6xl mx-auto px-6 pb-20 -mt-8 relative z-10"></main>
 
-  <footer class="text-center text-sm text-gray-500 pb-10">© 2026 Valesca Bravo — Interactive Lab</footer>
+  <footer class="bg-[#05021a] border-t border-[#1e1e38] py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <p class="text-gray-400 font-mono text-sm">© 2026 Valesca Bravo — Interactive Lab</p>
+    </div>
+  </footer>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const Card = ({ title, children, accent = 'indigo' }) => (
-      <div className={`card bg-white/90 backdrop-blur shadow rounded-2xl p-5 border-l-4 ${
-        accent==='blue'?'border-blue-500':accent==='emerald'?'border-emerald-500':accent==='rose'?'border-rose-500':accent==='violet'?'border-violet-500':accent==='indigo'?'border-indigo-500':'border-amber-500'
-      }`}>
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <div className="text-sm md:text-base text-gray-700">{children}</div>
-      </div>
-    );
+    // Branded Card Component
+    const Card = ({ title, children, accent = 'teal' }) => {
+      const accentBorder = {
+        teal: 'border-teal-500',
+        blue: 'border-teal-500',
+        emerald: 'border-teal-400',
+        violet: 'border-teal-400',
+        amber: 'border-teal-500',
+        indigo: 'border-teal-500',
+        rose: 'border-teal-400'
+      };
+      return (
+        <div className={`bg-[#0d0b1e] border ${accentBorder[accent] || 'border-teal-500'} rounded-2xl p-5 shadow-xl transition-all duration-300 hover:shadow-[0_12px_28px_rgba(19,214,193,0.18)] hover:border-teal-400`}>
+          <h3 className="text-xl font-bold mb-3 text-white serif-heading">{title}</h3>
+          <div className="text-gray-200 text-sm md:text-base">{children}</div>
+        </div>
+      );
+    };
 
     const stages = [
       { key:'awareness', label:'Awareness', color:'#60a5fa', emoji:'📣',
@@ -87,9 +227,9 @@
       }
     ];
 
+    // Interactive Circle Component with brand styling
     function Circle({active, setActive, onHover}){
-      // SVG circle with 5 arcs
-      const size = 320, center = size/2, rOuter = 120, rInner = 80; // smaller donut
+      const size = 320, center = size/2, rOuter = 120, rInner = 80;
       const anglePer = 360 / stages.length;
 
       const arcPath = (startAngle, endAngle) => {
@@ -106,9 +246,9 @@
       };
 
       return (
-        <svg width={size} height={size} className="mx-auto">
+        <svg width={size} height={size} className="mx-auto drop-shadow-lg">
           <defs>
-            <filter id="shadow"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#00000033"/></filter>
+            <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#13d6c1" flood-opacity="0.2"/></filter>
           </defs>
           {stages.map((s, i) => {
             const start = i*anglePer; const end = (i+1)*anglePer - 2;
@@ -126,12 +266,12 @@
               />
             );
           })}
-          <circle cx={center} cy={center} r={rInner-20} fill="#ffffff" stroke="#e5e7eb" />
-          <text x={center} y={center-6} textAnchor="middle" className="fill-gray-800" style={{fontSize:14,fontWeight:700}}>Customer</text>
-          <text x={center} y={center+12} textAnchor="middle" className="fill-gray-500" style={{fontSize:11}}>Journey</text>
+          <circle cx={center} cy={center} r={rInner-20} fill="#0d0b1e" stroke="#1e1e38" strokeWidth="2"/>
+          <text x={center} y={center-6} textAnchor="middle" className="fill-teal-200" style={{fontSize:14,fontWeight:700,fontFamily:"'DM Sans',sans-serif"}}>Customer</text>
+          <text x={center} y={center+12} textAnchor="middle" className="fill-gray-400" style={{fontSize:11,fontFamily:"'DM Mono',monospace"}}>Journey</text>
           {stages.map((s,i)=>{
             const mid = i*anglePer + anglePer/2 - 90;
-            const rad = (mid)*Math.PI/180; const rr = rOuter+22;
+            const rad = (mid)*Math.PI/180; const rr = rOuter+24;
             const x = center + rr*Math.cos(rad); const y = center + rr*Math.sin(rad);
             return (
               <g key={s.key}
@@ -139,8 +279,8 @@
                  onMouseEnter={()=> onHover(s)}
                  onMouseLeave={()=> onHover(null)}
                  className="cursor-pointer">
-                <circle cx={x} cy={y-6} r="9" fill={s.color} opacity="0.9" />
-                <text x={x} y={y+12} textAnchor="middle" className="fill-gray-700" style={{fontSize:10,fontWeight:700}}>{s.label}</text>
+                <circle cx={x} cy={y-6} r="10" fill={s.color} opacity="0.85" stroke="#13d6c1" strokeWidth="1.5"/>
+                <text x={x} y={y+12} textAnchor="middle" className="fill-gray-200 font-mono" style={{fontSize:10,fontWeight:600}}>{s.label}</text>
               </g>
             );
           })}
@@ -148,46 +288,48 @@
       );
     }
 
+    // Detail Panel with brand styling (pill design)
     function DetailPanel({stage}){
       if(!stage) return null;
-      const pill = (t)=> <span className="inline-flex items-center px-2 py-1 text-xs bg-gray-100 rounded border border-gray-200">{t}</span>;
+      const pill = (t)=> <span className="inline-flex items-center px-2 py-1 text-xs font-mono bg-[#1d085e]/40 text-teal-200 rounded-md border border-teal-500/40">{t}</span>;
       return (
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card title={`${stage.emoji} ${stage.label}: What it is`} accent="indigo">
-            <p>{stage.def}</p>
-            <p className="mt-2 text-gray-700">Customer behaviour: {stage.behaviour}</p>
+        <div className="grid md:grid-cols-2 gap-5">
+          <Card title={`${stage.emoji} ${stage.label}: What it is`} accent="teal">
+            <p className="text-gray-200">{stage.def}</p>
+            <p className="mt-2 text-teal-200/80 text-sm">Customer behaviour: {stage.behaviour}</p>
           </Card>
-          <Card title="Channels" accent="blue">
+          <Card title="📢 Channels" accent="teal">
             <div className="flex flex-wrap gap-2">{stage.channels.map(pill)}</div>
           </Card>
-          <Card title="KPIs" accent="emerald">
+          <Card title="📊 KPIs" accent="teal">
             <div className="flex flex-wrap gap-2">{stage.kpis.map(pill)}</div>
           </Card>
-          <Card title="AI / Data" accent="violet">
+          <Card title="🤖 AI / Data" accent="teal">
             <div className="flex flex-wrap gap-2">{stage.ai.map(pill)}</div>
           </Card>
-          <Card title="Tools (examples)" accent="amber">
+          <Card title="🛠 Tools (examples)" accent="teal">
             <div className="flex flex-wrap gap-2">{stage.tools.map(pill)}</div>
           </Card>
         </div>
       );
     }
 
+    // Hover Panel (preview)
     function HoverPanel({stage}){
       if(!stage) return (
-        <div className="text-sm text-gray-500 border border-dashed rounded-xl p-4 bg-white/70">
-          Hover a stage in the circle to preview its definition here.
+        <div className="text-sm text-gray-400 border border-dashed border-teal-500/40 rounded-xl p-5 bg-[#0d0b1e]/60 font-mono">
+          ✨ Hover a stage in the circle to preview its definition here.
         </div>
       );
       return (
-        <div className="bg-white border rounded-2xl p-4 shadow-sm">
-          <div className="text-xs text-gray-500 mb-1">Preview</div>
-          <div className="text-base font-semibold flex items-center gap-2">
-            <span style={{background:stage.color}} className="inline-block w-2 h-2 rounded-full"></span>
-            {stage.emoji} {stage.label}
+        <div className="bg-[#0d0b1e] border border-teal-500/40 rounded-2xl p-5 shadow-lg">
+          <div className="text-xs text-teal-300 font-mono mb-2">📌 Preview</div>
+          <div className="text-base font-semibold flex items-center gap-2 text-white">
+            <span style={{background:stage.color}} className="inline-block w-3 h-3 rounded-full"></span>
+            <span className="serif-heading">{stage.emoji} {stage.label}</span>
           </div>
-          <div className="mt-2 text-sm text-gray-700">{stage.def}</div>
-          <div className="mt-2 text-xs text-gray-600"><span className="font-semibold">Behaviour:</span> {stage.behaviour}</div>
+          <div className="mt-2 text-sm text-gray-200">{stage.def}</div>
+          <div className="mt-2 text-xs text-teal-200/70"><span className="font-semibold font-mono">Behaviour:</span> {stage.behaviour}</div>
         </div>
       );
     }
@@ -209,13 +351,13 @@
 
       return (
         <div className="space-y-8">
-          <Card title="Journey Overview (hover for preview, click for details)" accent="violet">
+          <Card title="🧭 Journey Overview (hover for preview, click for details)" accent="teal">
             <div className="grid md:grid-cols-2 gap-6 items-center">
               <div className="flex flex-col items-center">
                 <Circle active={active} setActive={setActive} onHover={setHovered} />
-                <div className="mt-4 flex flex-wrap gap-2 text-xs text-gray-600">
+                <div className="mt-6 flex flex-wrap gap-2 justify-center">
                   {stages.map(s => (
-                    <button key={s.key} className={`chip border ${active===s.key? 'bg-indigo-600 text-white border-indigo-700' : 'bg-white text-indigo-700 border-indigo-200 hover:bg-indigo-100'}`} onClick={()=>{ setActive(s.key); setHovered(null); }} onMouseEnter={()=> setHovered(s)} onMouseLeave={()=> setHovered(null)}>
+                    <button key={s.key} className={`chip-brand border transition-all ${active===s.key? 'bg-[#1d085e] text-teal-300 border-teal-500 shadow-md' : 'bg-[#0f0c23] text-gray-300 border-[#2a2a4a] hover:border-teal-500'}`} onClick={()=>{ setActive(s.key); setHovered(null); }} onMouseEnter={()=> setHovered(s)} onMouseLeave={()=> setHovered(null)}>
                       {s.emoji} {s.label}
                     </button>
                   ))}
@@ -227,7 +369,7 @@
 
           <DetailPanel stage={current} />
 
-          <div className="text-center text-sm text-gray-600">Tip: Hover to preview beside the circle. Click a stage to open full details below.</div>
+          <div className="text-center text-sm text-teal-200/60 font-mono mt-4">💡 Tip: Hover to preview beside the circle. Click a stage to open full details below.</div>
         </div>
       );
     }
